@@ -8,5 +8,5 @@ import java.util.Collection;
  * @author Александр Шабанов
  */
 public interface AnswerScoring {
-  public long getScore(Collection<QuestionAnswerPair> questionAnswerPairCollection);
+  public int getScore(Collection<QuestionAnswerPair> questionAnswerPairCollection);
 }

@@ -1,23 +1,25 @@
 package ru.otus.spring.service;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.QuestionAnswerPair;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 /**
  * @author Александр Шабанов
  */
+@DisplayName("Сервис оценки ответов должен:")
 class AnswerScoringImplTest {
-  AnswerScoring answerScoring;
-  Collection<QuestionAnswerPair> questionAnswerPairCollection;
+  private AnswerScoring answerScoring;
+  private Collection<QuestionAnswerPair> questionAnswerPairCollection;
 
   @BeforeEach
   void setUp() {
@@ -39,9 +41,9 @@ class AnswerScoringImplTest {
     questionAnswerPairCollection = List.of(questionAnswerPair1,questionAnswerPair2);
     answerScoring = new AnswerScoringImpl();
   }
-
+@DisplayName("корректно вернуть значение -10")
   @Test
-  void getScore() {
+  void ShouldReturnCorrectGetScore() {
     long mark = answerScoring.getScore(questionAnswerPairCollection);
     assertNotNull(mark);
     assertEquals(-10, mark);

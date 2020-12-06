@@ -16,19 +16,20 @@ import java.util.Scanner;
 @RequiredArgsConstructor
 public class QuestionDaoImpl implements QuestionDao{
   private final String resourceName;
-  private final List<Question> questionList = new ArrayList<>();
+
   @Override
   public Collection<Question> getQuestionCollection() {
-    getResource();
-    return questionList;
+
+    return getResource();
   }
 
-  private void parseLine(String line) {
+  private Question parseLine(String line) {
     Scanner lineScanner = new Scanner(line);
+    String questionText = "";
+    List<Answer> answerList = new ArrayList<>();
     lineScanner.useDelimiter(";");
     if (lineScanner.hasNext()) {
-      String questionText = lineScanner.next();
-      List<Answer> answerList = new ArrayList<>();
+      questionText = lineScanner.next();
       while (lineScanner.hasNext()) {
         String possibleAnswer = lineScanner.next();
         boolean isAnswerValid = false;
@@ -37,21 +38,23 @@ public class QuestionDaoImpl implements QuestionDao{
         }
         answerList.add(new Answer(possibleAnswer, isAnswerValid));
       }
-      questionList.add(new Question(questionText, answerList));
     }
+    lineScanner.close();
+    return new Question(questionText, answerList);
   }
-    private void getResource(){
-      try {
-        Scanner scanner = new Scanner(this.getClass().getClassLoader().getResourceAsStream(resourceName), StandardCharsets.UTF_8);
+
+    private Collection<Question> getResource(){
+      List<Question> questionList = new ArrayList<>();
+      try (Scanner scanner = new Scanner(this.getClass().getClassLoader().getResourceAsStream(resourceName), StandardCharsets.UTF_8);){
         if(scanner.hasNextLine()){
           scanner.nextLine(); //первая строка - заголовки, пропускаем
         }
         while (scanner.hasNextLine()) {
-          parseLine(scanner.nextLine());
+          questionList.add(parseLine(scanner.nextLine()));
         }
-        scanner.close();
       } catch (Exception e) {
         e.printStackTrace();
       }
+      return questionList;
     }
   }

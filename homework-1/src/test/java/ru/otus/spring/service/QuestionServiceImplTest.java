@@ -1,5 +1,6 @@
 package ru.otus.spring.service;
 
+import org.junit.jupiter.api.Test;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.dao.QuestionDaoImpl;
 import ru.otus.spring.domain.Answer;
@@ -16,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class QuestionServiceImplTest {
   private final QuestionDao dao = new QuestionDaoImpl("questions.csv");
 
-  @org.junit.jupiter.api.Test
+  @Test
   void run() {
     Question question1 = new Question("Сколько будет 2*2", List.of(
         new Answer("1", false),

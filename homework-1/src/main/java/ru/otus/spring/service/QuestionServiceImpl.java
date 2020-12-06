@@ -17,7 +17,6 @@ public class QuestionServiceImpl implements QuestionService {
   private static final String IDENT = "    ";
   private final QuestionDao questionDao;
   private final AnswerScoring answerScoring;
-  private final Collection<QuestionAnswerPair> questionAnswerPairs = new ArrayList<>();
 
   @Override
   /**
@@ -25,26 +24,28 @@ public class QuestionServiceImpl implements QuestionService {
    */
   public long run() {
     Collection<Question> questionCollection = questionDao.getQuestionCollection();
-    questionCollection.forEach(this::proceedQuestion);
+    return answerScoring.getScore(proceedQuestions(questionCollection));
+  }
 
-    return answerScoring.getScore(questionAnswerPairs);
+  private Collection<QuestionAnswerPair> proceedQuestions(Collection<Question> questionCollection) {
+    Collection<QuestionAnswerPair> questionAnswerPairs = new ArrayList<>();
+    questionCollection.forEach(question -> questionAnswerPairs.add(proceedQuestion(question)));
+    return questionAnswerPairs;
   }
 
   /**
    * Выводим вопрос и варианты ответов + в перспективе ожидаем ответ и сохраняем
    * @param question вопрос из файла
    */
-  private void proceedQuestion(Question question) {
-    StringBuilder sb = new StringBuilder();
+  private QuestionAnswerPair proceedQuestion(Question question) {
     System.out.println(question.getQuestionText());
     if(!question.getAnswerCollection().isEmpty()){
-      System.out.println(sb.append(IDENT).append("Варианты ответов:").toString());
+      System.out.println(String.format("%s Варианты ответов:", IDENT));
       for(Answer answer:question.getAnswerCollection()){
-        sb.setLength(0);
-        System.out.println(sb.append(IDENT).append(answer.getAnswerText()).toString());
+        System.out.println(String.format("%s %s", IDENT, answer.getAnswerText()));
       }
-      questionAnswerPairs.add(new QuestionAnswerPair(question,getAnswers()));
     }
+    return new QuestionAnswerPair(question,getAnswers());
   }
 
   private Collection<Answer> getAnswers() {
