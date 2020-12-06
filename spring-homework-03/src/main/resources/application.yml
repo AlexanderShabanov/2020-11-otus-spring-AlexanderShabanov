@@ -1,0 +1,8 @@
+answer-scoring:
+  rightAnswerMark: 10
+  wrongAnswerMark: -20
+  minimumMarkToCompleteTest: 20
+dao:
+  resourceName: "questions.csv"
+common:
+  locale: ru_RU
