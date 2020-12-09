@@ -1,6 +1,7 @@
 package ru.otus.spring.dao;
 
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
@@ -14,7 +15,7 @@ import java.util.Scanner;
 /**
  * @author Александр Шабанов
  */
-@Service
+@Repository
 //@RequiredArgsConstructor
 public class QuestionDaoImpl implements QuestionDao{
   private final String resourceName;

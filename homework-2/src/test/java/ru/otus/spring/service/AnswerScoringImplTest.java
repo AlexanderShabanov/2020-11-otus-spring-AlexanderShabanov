@@ -12,14 +12,14 @@ import ru.otus.spring.domain.Score;
 import java.util.Collection;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * @author Александр Шабанов
  */
 @DisplayName("Сервис оценки ответов должен:")
 class AnswerScoringImplTest {
+  private final static int EXPECTED_MARK = -10;
   private AnswerScoring answerScoring;
   private Collection<QuestionAnswerPair> questionAnswerPairCollection;
 
@@ -48,7 +48,7 @@ class AnswerScoringImplTest {
   void ShouldReturnCorrectGetScore() {
     Score mark = answerScoring.getScore(questionAnswerPairCollection);
     assertNotNull(mark);
-    assertEquals(-10, mark.getMark());
-    assertEquals(false, mark.isTestCompleted());
+    assertEquals(EXPECTED_MARK, mark.getMark());
+    assertFalse(mark.isTestCompleted());
   }
 }

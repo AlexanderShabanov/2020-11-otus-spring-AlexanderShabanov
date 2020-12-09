@@ -1,7 +1,11 @@
 package ru.otus.spring.service;
 
 import lombok.SneakyThrows;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
+import ru.otus.spring.domain.IOContext;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -19,11 +23,13 @@ class UserInterfaceServiceImplTest {
     private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
     private final PrintStream out = new PrintStream(outputStream);
     private final InputStream in = new ByteArrayInputStream(INPUT_TEST_LINES.getBytes());
+
     private UserInterfaceService userInterfaceService;
 
     @BeforeEach
-    void setUp() {
-        userInterfaceService = new UserInterfaceServiceImpl(out, in);
+    void setUp()
+    {
+        userInterfaceService = new UserInterfaceServiceImpl(new IOContext(in, out));
     }
     @AfterEach
     @SneakyThrows
