@@ -1,26 +1,38 @@
 package ru.otus.spring.service;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import ru.otus.spring.domain.IOContext;
 
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.Scanner;
 
 @Service
-@RequiredArgsConstructor
+
 public class UserInterfaceServiceImpl implements UserInterfaceService {
-    private final PrintStream out;
-    private final InputStream in;
+    private final IOContext ioContext;
+    private final Scanner scanner;
+
+    public UserInterfaceServiceImpl(IOContext ioContext) {
+        this.ioContext = ioContext;
+        this.scanner = new Scanner(ioContext.getIn());
+    }
 
     @Override
     public void textOut(String text) {
-        out.println(text);
+        ioContext.getOut().println(text);
+    }
+
+    @Override
+    public void textOut(String textFmt, Object... args) {
+        ioContext.getOut().printf(textFmt, args);
+    }
+
+    @Override
+    public void textOutLn(String textFmt, Object... args) {
+        ioContext.getOut().printf(String.join(textFmt,"\n"), args);
     }
 
     @Override
     public String textIn() {
-        Scanner scanner = new Scanner(in);
         return scanner.nextLine();
     }
 }

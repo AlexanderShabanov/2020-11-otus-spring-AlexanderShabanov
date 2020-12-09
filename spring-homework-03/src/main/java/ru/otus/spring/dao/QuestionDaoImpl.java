@@ -1,13 +1,13 @@
 package ru.otus.spring.dao;
 
-import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Service;
-import ru.otus.spring.config.CommonPropertiesConfig;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 
 import java.nio.charset.StandardCharsets;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
+import java.util.Scanner;
 
 /**
  * @author Александр Шабанов

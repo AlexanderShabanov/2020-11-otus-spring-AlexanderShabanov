@@ -1,24 +1,19 @@
 package ru.otus.spring.service;
 
-import lombok.SneakyThrows;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.context.MessageSource;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
+import ru.otus.spring.domain.QuestionAnswerPair;
 import ru.otus.spring.domain.Score;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
-import java.io.PrintStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -29,57 +24,68 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 @DisplayName("Сервис тестирования должен")
 class QuestionServiceImplTest {
-    private static final String OUTPUT_TEST_STRING = "тестовая строка";
-    private static final String INPUT_TEST_LINES = "4\n6,2\n";
-    private static final String INPUT_TEST_STRING = "4";
+    private static final String[] answers = {"4\n", "9,1\n"};
+    private  static final String OUT_STRING = "Вы набрали %s баллов. Тест %s";
+    private static final String NOT_COMPLETED = " не пройден!";
 
     private final Collection<Question> questionCollection = new ArrayList<>();
-    private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-    private final PrintStream out = new PrintStream(outputStream);
-    private final InputStream in = new ByteArrayInputStream(INPUT_TEST_LINES.getBytes());
-    private final UserInterfaceService userInterfaceService = new UserInterfaceServiceImpl(out, in);
 
-    private QuestionService questionService;
+    @Mock
+    private UserInterfaceService userInterfaceService;
+
     @Mock
     private QuestionDao dao;
     @Mock
     private AnswerScoring answerScoring;
+
     @Mock
-    private MessageSource messageSource;
+    private AskQuestionService askQuestionService;
+
+    @Mock
+    private LocalizedMessageSource messageSource;
+
+    private QuestionService questionService;
+    private final Question[] questions = {
+        new Question("Сколько будет 2*2", List.of(
+            new Answer("1", false),
+            new Answer("2", false),
+            new Answer("4", true)
+        )),
+        new Question("Сколько будет 3*3", List.of(
+            new Answer("1", false),
+            new Answer("9", true),
+            new Answer("4", false)
+        ))
+    };
 
     @BeforeEach
     void setUp() {
-        questionService = new QuestionServiceImpl(dao, answerScoring, userInterfaceService, messageSource);
-        questionCollection.add(new Question("Сколько будет 2*2", List.of(
-                new Answer("1", false),
-                new Answer("2", false),
-                new Answer("4", true)
-        )));
-//        questionCollection.add(new Question("Сколько будет 3*3", List.of(
-//                new Answer("1", false),
-//                new Answer("9", true),
-//                new Answer("4", false)
-//        )));
+        questionService = new QuestionServiceImpl(dao, answerScoring, askQuestionService, userInterfaceService, messageSource);
+        questionCollection.add(questions[0]);
+        questionCollection.add(questions[1]);
 
     }
 
-    @AfterEach
-    @SneakyThrows
-    void after() {
-        in.close();
-        out.close();
-        outputStream.close();
-    }
+
 
     @DisplayName("корректно обрабатывать верные ответы")
     @Test
     void shouldCorrectReturnMark() {
-        //TODO не понял, как корректно подсунуть ответ на второй вопрос.
-        // не совсем понятна ценность теста, может лучше интеграционный ну или проверять все аргументы.
+        when(messageSource.getMessage("question-service.you-got-mark")).thenReturn(OUT_STRING);
+//        when(messageSource.getMessage("question-service.done")).thenReturn(COMPLETED);
+        when(messageSource.getMessage("question-service.not-done")).thenReturn(NOT_COMPLETED);
+
+        Score score = new Score(10, false);
+        QuestionAnswerPair[] questionAnswerPairs = {new QuestionAnswerPair(questions[0],
+            List.of(new Answer(answers[0], false))), new QuestionAnswerPair(questions[1],
+            List.of(new Answer(answers[1], false)))};
+        when(askQuestionService.proceedQuestion(questions[0])).thenReturn(questionAnswerPairs[0]);
+        when(askQuestionService.proceedQuestion(questions[1])).thenReturn(questionAnswerPairs[1]);
         when(dao.getQuestionCollection()).thenReturn(questionCollection);
-        when(answerScoring.getScore(any())).thenReturn(new Score(20, true));
+        when(answerScoring.getScore(Arrays.asList(questionAnswerPairs))).thenReturn(score);
         assertDoesNotThrow(()->{questionService.run();});
         verify(dao,times(1)).getQuestionCollection();
         verify(answerScoring,times(1)).getScore(any());
+        verify(userInterfaceService, times(1)).textOut(OUT_STRING,score.getMark(), NOT_COMPLETED);
     }
 }

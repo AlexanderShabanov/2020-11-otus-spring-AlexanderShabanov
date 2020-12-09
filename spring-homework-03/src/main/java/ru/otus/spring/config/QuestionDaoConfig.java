@@ -1,10 +1,10 @@
 package ru.otus.spring.config;
 
-import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.dao.QuestionDaoImpl;
+import ru.otus.spring.service.LocalizedMessageSource;
 
 /**
  * @author Александр Шабанов
@@ -12,8 +12,8 @@ import ru.otus.spring.dao.QuestionDaoImpl;
 @Configuration
 public class QuestionDaoConfig {
   @Bean
-  public QuestionDao questionDao(MessageSource messageSource, CommonPropertiesConfig commonPropertiesConfig){
-    String resourceName = messageSource.getMessage("dao.resourceName", null, commonPropertiesConfig.getLocale());
+  public QuestionDao questionDao(LocalizedMessageSource messageSource){
+    String resourceName = messageSource.getMessage("dao.resourceName");
     return new QuestionDaoImpl(resourceName);
   }
 }
