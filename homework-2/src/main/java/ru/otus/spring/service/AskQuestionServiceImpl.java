@@ -26,7 +26,7 @@ public class AskQuestionServiceImpl implements AskQuestionService {
     userInterfaceService.textOut("Вопросы могут иметь несколько правильных ответов. Значения при ответе разделяются запятой.");
     userInterfaceService.textOut(question.getQuestionText());
     if(!question.getAnswerCollection().isEmpty()){
-      userInterfaceService.textOut(String.format("%s Варианты ответов:", IDENT));
+      userInterfaceService.textOut("%s Варианты ответов:", IDENT);
       for(Answer answer:question.getAnswerCollection()){
         userInterfaceService.textOut("%s %s", IDENT, answer.getAnswerText());
       }
