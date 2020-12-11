@@ -17,18 +17,17 @@ import java.util.Scanner;
 @RequiredArgsConstructor
 public class AskQuestionServiceImpl implements AskQuestionService {
   private static final String IDENT = "    ";
-  private final UserInterfaceService userInterfaceService;
-  private final LocalizedMessageSource messageSource;
+  private final LocalizedUserInterfaceService userInterfaceService;
 
   /**
    * Выводим вопрос и варианты ответов +  ожидаем ответ и сохраняем
    * @param question вопрос из файла
    */
   public QuestionAnswerPair proceedQuestion(Question question) {
-    userInterfaceService.textOut(messageSource.getMessage("ask-question.several_answers_text"));
+    userInterfaceService.messageOutLn("ask-question.several_answers_text");
     userInterfaceService.textOut(question.getQuestionText());
     if(!question.getAnswerCollection().isEmpty()){
-      userInterfaceService.textOut(String.format(messageSource.getMessage("ask-question.answer_variant"), IDENT));
+      userInterfaceService.messageOutLn("ask-question.answer_variant");
       for(Answer answer:question.getAnswerCollection()){
         userInterfaceService.textOut("%s %s\n", IDENT, answer.getAnswerText());
       }

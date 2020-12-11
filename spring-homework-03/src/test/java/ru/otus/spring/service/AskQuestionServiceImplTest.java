@@ -22,7 +22,7 @@ import static org.mockito.Mockito.*;
 @DisplayName("Сервис задавания вопросов и получения ответов должен")
 class AskQuestionServiceImplTest {
   private static final String IDENT = "    ";
-  private static final String STRING1 = "%s %s";
+  private static final String STRING1 = "%s %s\n";
   private static final String ANSWERTEXT1 = "1";
   private static final String ANSWERTEXT2 = "2";
   private static final String ANSWERTEXT3 = "4";
@@ -32,20 +32,16 @@ class AskQuestionServiceImplTest {
 
   private  AskQuestionService askQuestionService;
   @Mock
-  private UserInterfaceService userInterfaceService;
-  @Mock
-  private LocalizedMessageSource messageSource;
+  private LocalizedUserInterfaceService userInterfaceService;
 
   @BeforeEach
   void setUp(){
-    askQuestionService = new AskQuestionServiceImpl(userInterfaceService,messageSource);
+    askQuestionService = new AskQuestionServiceImpl(userInterfaceService);
   }
 
   @Test
   @DisplayName("как это ни странно, уметь задать вопрос и получить на него ответ")
   void shouldCorrectAskQuestionAndGetAnswer(){
-    when(messageSource.getMessage("ask-question.several_answers_text")).thenReturn(MESSAGE1);
-    when(messageSource.getMessage("ask-question.answer_variant")).thenReturn(MESSAGE2);
     Question question = new Question("Сколько будет 2*2", List.of(
         new Answer(ANSWERTEXT1, false),
         new Answer(ANSWERTEXT2, false),

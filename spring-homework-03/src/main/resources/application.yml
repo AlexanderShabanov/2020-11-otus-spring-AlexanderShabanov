@@ -1,3 +1,7 @@
+spring:
+  messages:
+    encoding: UTF-8
+    basename: i18n.bundle
 answer-scoring:
   rightAnswerMark: 10
   wrongAnswerMark: -20
@@ -5,3 +9,6 @@ answer-scoring:
 
 common:
   locale: ru_RU
+
+questions:
+  basename: questions_<locale>.csv

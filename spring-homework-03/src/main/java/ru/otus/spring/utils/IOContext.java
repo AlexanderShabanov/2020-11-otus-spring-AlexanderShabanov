@@ -1,4 +1,4 @@
-package ru.otus.spring.domain;
+package ru.otus.spring.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
