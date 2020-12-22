@@ -1,0 +1,3 @@
+Question;Answer1;IsAnswer1Valid;Answer2;IsAnswer2Valid;Answer3;IsAnswer3Valid
+How much is 2*2?;1;false;2;false;4;true
+How many bits in byte?;6;false;8;true;7;false
