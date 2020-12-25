@@ -1,4 +1,4 @@
-package ru.otus.spring.service;
+package ru.otus.spring.ui;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.shell.Availability;
@@ -6,9 +6,7 @@ import org.springframework.shell.standard.ShellComponent;
 import org.springframework.shell.standard.ShellMethod;
 import org.springframework.shell.standard.ShellMethodAvailability;
 import org.springframework.shell.standard.ShellOption;
-import ru.otus.spring.SpringHomeworkApplication;
-
-import java.util.Collections;
+import ru.otus.spring.service.QuestionService;
 
 /**
  * @author Александр Шабанов
@@ -31,7 +29,6 @@ public class ShellCommands {
   @ShellMethod(key = {"t", "test"}, value = "Begin test")
   public void test() {
     service.run();
-    System.exit(0);
   }
 
   @ShellMethodAvailability("test")

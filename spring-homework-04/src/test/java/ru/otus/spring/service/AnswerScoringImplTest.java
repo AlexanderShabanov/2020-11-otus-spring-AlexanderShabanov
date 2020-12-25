@@ -3,8 +3,8 @@ package ru.otus.spring.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import ru.otus.spring.config.AnswerScoringConfig;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.QuestionAnswerPair;
@@ -22,6 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 @DisplayName("Сервис оценки ответов должен:")
 class AnswerScoringImplTest {
   private final static int EXPECTED_MARK = -10;
+  @Autowired
   private AnswerScoring answerScoring;
   private Collection<QuestionAnswerPair> questionAnswerPairCollection;
 
@@ -43,7 +44,6 @@ class AnswerScoringImplTest {
     QuestionAnswerPair questionAnswerPair1 = new QuestionAnswerPair(question1, List.of(answer1));
     QuestionAnswerPair questionAnswerPair2 = new QuestionAnswerPair(question2, List.of(answer2));
     questionAnswerPairCollection = List.of(questionAnswerPair1, questionAnswerPair2);
-    answerScoring = new AnswerScoringImpl(new AnswerScoringConfig(10, -20, 50));
   }
 
   @DisplayName("корректно вернуть значение -10")

@@ -47,7 +47,8 @@ class QuestionServiceImplTest {
   @MockBean
   private LocalizedMessageSource messageSource;
 
-  private final QuestionService questionService;
+  @Autowired
+  private QuestionService questionService;
   private final Question[] questions = {
       new Question("Сколько будет 2*2", List.of(
           new Answer("1", false),
@@ -60,14 +61,9 @@ class QuestionServiceImplTest {
           new Answer("4", false)
       ))
   };
-  @Autowired
-  QuestionServiceImplTest(QuestionService questionService) {
-    this.questionService = questionService;
-  }
 
   @BeforeEach
   void setUp() {
-//    questionService = new QuestionServiceImpl(dao, answerScoring, askQuestionService, userInterfaceService, messageSource);
     questionCollection.add(questions[0]);
     questionCollection.add(questions[1]);
 
@@ -78,7 +74,6 @@ class QuestionServiceImplTest {
   @Test
   void shouldCorrectReturnMark() {
     when(messageSource.getMessage("question-service.you-got-mark")).thenReturn(OUT_STRING);
-//        when(messageSource.getMessage("question-service.done")).thenReturn(COMPLETED);
     when(messageSource.getMessage("question-service.not-done")).thenReturn(NOT_COMPLETED);
 
     Score score = new Score(10, false);

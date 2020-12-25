@@ -1,11 +1,11 @@
 package ru.otus.spring.service;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import ru.otus.spring.domain.Answer;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.QuestionAnswerPair;
@@ -29,19 +29,12 @@ class AskQuestionServiceImplTest {
   private static final String MESSAGE1 = "Вопросы могут иметь несколько правильных ответов. Значения при ответе разделяются запятой.";
   private static final String MESSAGE2 = "%s Варианты ответов:";
 
+  @Autowired
+  private AskQuestionService askQuestionService;
 
-  private final AskQuestionService askQuestionService;
   @MockBean
   private LocalizedUserInterfaceService userInterfaceService;
-  @Autowired
-  AskQuestionServiceImplTest(AskQuestionService askQuestionService) {
-    this.askQuestionService = askQuestionService;
-  }
 
-//  @BeforeEach
-//  void setUp() {
-//    askQuestionService = new AskQuestionServiceImpl(userInterfaceService);
-//  }
 
   @Test
   @DisplayName("как это ни странно, уметь задать вопрос и получить на него ответ")

@@ -2,11 +2,13 @@ package ru.otus.spring.service;
 
 import lombok.SneakyThrows;
 import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import ru.otus.spring.utils.IOContext;
 
 import java.io.ByteArrayInputStream;
@@ -18,23 +20,24 @@ import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 @DisplayName("Сервис пользовательского интерфейса должен")
-class UserInterfaceServiceImplTest {
 
+public class UserInterfaceServiceImplTest {
+  @Configuration
+  static class TestConfiguration {
+    @Bean UserInterfaceService userInterfaceService(){
+      return new UserInterfaceServiceImpl(new IOContext(in, out));
+    }
+  }
   private static final String OUTPUT_TEST_STRING = "тестовая строка";
   private static final String INPUT_TEST_LINES = "4\n6,2\n";
   private static final String INPUT_TEST_STRING = "4";
 
-  private final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-  private final PrintStream out = new PrintStream(outputStream);
-  private final InputStream in = new ByteArrayInputStream(INPUT_TEST_LINES.getBytes());
+  private static final ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+  private static final PrintStream out = new PrintStream(outputStream);
+  private static final InputStream in = new ByteArrayInputStream(INPUT_TEST_LINES.getBytes());
 
+  @Autowired
   private UserInterfaceService userInterfaceService;
-
-
-  @BeforeEach
-  void setUp() {
-    userInterfaceService = new UserInterfaceServiceImpl(new IOContext(in, out));
-  }
 
   @AfterEach
   @SneakyThrows

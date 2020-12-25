@@ -1,4 +1,4 @@
-package ru.otus.spring.service;
+package ru.otus.spring.ui;
 
 import org.jline.utils.AttributedString;
 import org.jline.utils.AttributedStyle;

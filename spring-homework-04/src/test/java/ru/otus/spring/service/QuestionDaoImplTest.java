@@ -2,6 +2,7 @@ package ru.otus.spring.service;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import ru.otus.spring.dao.QuestionDao;
 import ru.otus.spring.dao.QuestionDaoImpl;
@@ -19,7 +20,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @DisplayName("Сервис чтения данных из файла должен")
 class QuestionDaoImplTest {
-  private final QuestionDao dao = new QuestionDaoImpl("questions_ru_RU.csv");
+  @Autowired
+  private  QuestionDao dao;
 
   @Test
   @DisplayName("вернуть корректные данные из файла")

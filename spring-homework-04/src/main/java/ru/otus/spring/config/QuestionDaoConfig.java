@@ -19,7 +19,7 @@ public class QuestionDaoConfig {
     return new QuestionDaoImpl(parseFileName());
   }
 
-  String parseFileName() {
+  private String parseFileName() {
     return questionDaoProperties.getBaseName();
   }
 }

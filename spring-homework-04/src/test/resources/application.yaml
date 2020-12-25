@@ -2,3 +2,7 @@ spring:
   shell:
     interactive:
       enabled: false
+answer-scoring:
+  rightAnswerMark: 10
+  wrongAnswerMark: -20
+  minimumMarkToCompleteTest: 20
