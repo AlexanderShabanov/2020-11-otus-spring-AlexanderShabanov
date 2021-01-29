@@ -21,15 +21,12 @@ public class ShellCommands {
 
     @ShellMethod(key = {"af", "authorFindAll"}, value = "get all authors")
     public List<Author> authorFindAll() {
-        var listAuthor = libraryService.findAllAuthors();
-        return listAuthor;
+        return libraryService.findAllAuthors();
     }
 
     @ShellMethod(key = {"afid", "authorFindById"}, value = "get author by id")
     public Optional<Author> authorFindById(long id) {
-        Optional<Author> author = libraryService.findAuthorById(id);
-        //System.out.println(author.orElseThrow(()->new RuntimeException("нема авторов")));
-        return author;
+        return libraryService.findAuthorById(id);
     }
 
     @ShellMethod(key = {"ai", "authorInsert"}, value = "insert author")
@@ -44,14 +41,12 @@ public class ShellCommands {
 
     @ShellMethod(key = {"gf", "genreFindAll"}, value = "get all genres")
     public List<Genre> genreFindAll() {
-        var listGenre = libraryService.findAllGenres();
-        return listGenre;
+        return libraryService.findAllGenres();
     }
 
     @ShellMethod(key = {"gfid", "genreFindById"}, value = "get genre by id")
     public Optional<Genre> genreFindById(long id) {
-        Optional<Genre> genre = libraryService.findGenreById(id);
-        return genre;
+        return libraryService.findGenreById(id);
     }
 
     @ShellMethod(key = {"gi", "genreInsert"}, value = "insert genre")
@@ -66,34 +61,32 @@ public class ShellCommands {
 
     @ShellMethod(key = {"bf", "bookFindAll"}, value = "get all books")
     public List<Book> bookFindAll() {
-        var listBook = libraryService.findAllBooks();
-        return listBook;
+        return libraryService.findAllBooks();
     }
 
     @ShellMethod(key = {"bfid", "bookFindById"}, value = "get book by id")
     public Optional<Book> bookFindById(long id) {
-        Optional<Book> book = libraryService.findBookById(id);
-        return book;
+        return libraryService.findBookById(id);
     }
 
     @ShellMethod(key = {"bi_id", "bookInsert_id"}, value = "insert book with existed author and genre")
-    public void bookInsert(long id, long author_id, long genre_id,  String name) {
-        libraryService.insertBook(new Book(id, new Author(author_id, "", ""), new Genre(genre_id, ""), name),false);
+    public void bookInsert(long authorId, long genreId, String name) {
+        libraryService.insertBook(new Book(null, new Author(authorId, "", ""), new Genre(genreId, ""), name), false);
     }
 
     @ShellMethod(key = {"bi_full", "bookInsert_full"}, value = "insert book_full")
-    public void bookInsert(long id, long author_id, String author_name, String author_surName, long genre_id, String genre_name, String name) {
-        libraryService.insertBook(new Book(id, new Author(author_id, author_name, author_surName), new Genre(genre_id, genre_name), name),true);
+    public void bookInsert(long authorId, String authorName, String authorSurName, long genreId, String genreName, String name) {
+        libraryService.insertBook(new Book(null, new Author(authorId, authorName, authorSurName), new Genre(genreId, genreName), name), true);
     }
 
     @ShellMethod(key = {"bu_full", "bookUpdate_full"}, value = "update book_full")
-    public void bookUpdate(long id, long author_id, String author_name, String author_surName, long genre_id, String genre_name, String name) {
-        libraryService.updateBook(new Book(id, new Author(author_id, author_name, author_surName), new Genre(genre_id, genre_name), name), true);
+    public void bookUpdate(long id, long authorId, String authorName, String authorSurName, long genreId, String genreName, String name) {
+        libraryService.updateBook(new Book(id, new Author(authorId, authorName, authorSurName), new Genre(genreId, genreName), name), true);
     }
 
     @ShellMethod(key = {"bu_id", "bookUpdate_id"}, value = "update book with existed author and genre")
-    public void bookUpdate(long id, long author_id, long genre_id,  String name) {
-        libraryService.updateBook(new Book(id, new Author(author_id, "", ""), new Genre(genre_id, ""), name),false);
+    public void bookUpdate(long id, long authorId, long genreId, String name) {
+        libraryService.updateBook(new Book(id, new Author(authorId, "", ""), new Genre(genreId, ""), name), false);
     }
 
     @ShellMethod(key = {"bd_id", "bookDelete_id"}, value = "delete book ny id")

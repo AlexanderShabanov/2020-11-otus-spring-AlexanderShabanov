@@ -1,9 +1,9 @@
 package ru.otus.spring.repositories;
 
+import ru.otus.spring.models.Genre;
+
 import java.util.List;
 import java.util.Optional;
-
-import ru.otus.spring.models.Genre;
 
 /**
  * @author Александр Шабанов
@@ -16,4 +16,6 @@ public interface GenreRepository {
   void insertGenre(Genre genre);
 
   void updateGenre(Genre genre);
+
+  boolean checkGenreExistsById(long id);
 }

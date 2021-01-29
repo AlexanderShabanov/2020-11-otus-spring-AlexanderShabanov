@@ -3,14 +3,10 @@ package ru.otus.spring.service;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
@@ -28,7 +24,6 @@ import static org.mockito.Mockito.*;
 @DisplayName("Библиотечный сервис должен")
 @SpringBootTest
 @ContextConfiguration(classes = LibraryServiceImpl.class)
-@ExtendWith(MockitoExtension.class)
 class LibraryServiceImplTest {
     private static final long BOOK_ID = 1;
     private static final long AUTHOR_ID = 1;
@@ -69,8 +64,10 @@ class LibraryServiceImplTest {
         book1.getGenre().setName(null);
         when(authorRepository.findAuthorById(AUTHOR_ID)).thenReturn(Optional.of(new Author()));
         when(genreRepository.findGenreById(GENRE_ID)).thenReturn(Optional.of(new Genre()));
-        libraryService.insertBook(book1,false);
-        verify(bookRepository,times(1)).insertBook(book1);
+        when(authorRepository.checkAuthorExistsById(AUTHOR_ID)).thenReturn(true);
+        when(genreRepository.checkGenreExistsById(GENRE_ID)).thenReturn(true);
+        libraryService.insertBook(book1, false);
+        verify(bookRepository, times(1)).insertBook(book1);
     }
 
     @Test
@@ -81,7 +78,9 @@ class LibraryServiceImplTest {
         book1.getGenre().setName(null);
         when(authorRepository.findAuthorById(AUTHOR_ID)).thenReturn(Optional.ofNullable(null));
         when(genreRepository.findGenreById(GENRE_ID)).thenReturn(Optional.of(new Genre()));
-        assertThatThrownBy(()-> libraryService.insertBook(book1,false)).isInstanceOf(RelatedObjectNotFoundException.class);
+        when(authorRepository.checkAuthorExistsById(AUTHOR_ID)).thenReturn(false);
+        when(genreRepository.checkGenreExistsById(GENRE_ID)).thenReturn(true);
+        assertThatThrownBy(() -> libraryService.insertBook(book1, false)).isInstanceOf(RelatedObjectNotFoundException.class);
     }
 
     @Test
@@ -89,8 +88,10 @@ class LibraryServiceImplTest {
     void shouldSuccessfulInsertBookWithFullRelatedEntitiesReferences() {
         when(authorRepository.findAuthorById(AUTHOR_ID)).thenReturn(Optional.ofNullable(null));
         when(genreRepository.findGenreById(GENRE_ID)).thenReturn(Optional.ofNullable(null));
-        libraryService.insertBook(book1,true);
-        verify(bookRepository,times(1)).insertBook(book1);
+        when(authorRepository.checkAuthorExistsById(AUTHOR_ID)).thenReturn(false);
+        when(genreRepository.checkGenreExistsById(GENRE_ID)).thenReturn(false);
+        libraryService.insertBook(book1, true);
+        verify(bookRepository, times(1)).insertBook(book1);
     }
 
 

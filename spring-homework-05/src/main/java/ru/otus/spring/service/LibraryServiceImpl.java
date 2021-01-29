@@ -20,7 +20,7 @@ public class LibraryServiceImpl implements LibraryService {
     private final AuthorRepository authorRepository;
     private final GenreRepository genreRepository;
     private final BookRepository bookRepository;
-    private final static String RELATED_OBJECT_NOT_FOUND = "Связанная сущность %s с id = %d не найдена!";
+    private static final String RELATED_OBJECT_NOT_FOUND = "Связанная сущность %s с id = %d не найдена!";
 
 
     @Override
@@ -98,13 +98,13 @@ public class LibraryServiceImpl implements LibraryService {
      * @param book собственно книга со связанными сущностями
      */
     private void checkOrSaveRelatedObjects(Book book, boolean createRelatedObjects) {
-        if (authorRepository.findAuthorById(book.getAuthor().getId()).isEmpty()) {
+        if (!authorRepository.checkAuthorExistsById(book.getAuthor().getId())) {
             if (createRelatedObjects) {
                 authorRepository.insertAuthor(book.getAuthor());
             } else
                 throw new RelatedObjectNotFoundException(String.format(RELATED_OBJECT_NOT_FOUND, "author", book.getAuthor().getId()));
         }
-        if (genreRepository.findGenreById(book.getGenre().getId()).isEmpty()) {
+        if (!genreRepository.checkGenreExistsById(book.getGenre().getId())) {
             if (createRelatedObjects) {
                 genreRepository.insertGenre(book.getGenre());
             } else

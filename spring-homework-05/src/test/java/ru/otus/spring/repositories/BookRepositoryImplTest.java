@@ -1,20 +1,22 @@
 package ru.otus.spring.repositories;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.context.annotation.Import;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
+import ru.otus.spring.service.transformer.EntityToMapTransformerImpl;
 
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@JdbcTest
+@Import({BookRepositoryImpl.class, EntityToMapTransformerImpl.class})
 @DisplayName("Репозиторий для книг должен")
 @Transactional
 class BookRepositoryImplTest {
@@ -33,11 +35,8 @@ class BookRepositoryImplTest {
     private final Genre genre = new Genre(GENRE_ID, GENRE_NAME);
     private final Book book1 = Book.builder().id(BOOK_ID).name(BOOK_NAME).author(author).genre(genre).build();
     @Autowired
-    BookRepository bookRepository;
-
-    @BeforeEach
-    void setUp() {
-    }
+    private BookRepository bookRepository;
+    //мокать EntityToMapTransformer уж не стал, логики там никакой нет
 
     @Test
     @DisplayName("загружать список всех книг")
@@ -71,7 +70,7 @@ class BookRepositoryImplTest {
     @Test
     @DisplayName("изменить, а потом загрузить информацию о книге")
     void shouldUpdateAndLoadCorrectBook() {
-        Author author1 = new Author(AUTHOR_ID_1,"Александр", "Пушкин");
+        Author author1 = new Author(AUTHOR_ID_1, "Александр", "Пушкин");
         Book book2 = Book.builder().id(BOOK_ID).name(BOOK_NAME_2).author(author1).genre(genre).build();
         bookRepository.updateBook(book2); // теперь книга с ID = 1 - не три мушкетера, а книга 2
         Optional<Book> optionalBook = bookRepository.findBookById(BOOK_ID);
@@ -82,6 +81,7 @@ class BookRepositoryImplTest {
     }
 
     @Test
+    @DisplayName("удалять информацию о книге")
     void shouldDeleteBook() {
         bookRepository.deleteBookById(BOOK_ID);
         Optional<Book> optionalBook = bookRepository.findBookById(BOOK_ID);

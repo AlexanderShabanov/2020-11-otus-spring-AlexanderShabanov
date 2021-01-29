@@ -1,20 +1,21 @@
 package ru.otus.spring.repositories;
 
+import ru.otus.spring.models.Author;
+
 import java.util.List;
 import java.util.Optional;
-
-import ru.otus.spring.models.Author;
 
 /**
  * @author Александр Шабанов
  */
 public interface AuthorRepository {
-  List<Author> findAllAuthors();
+    List<Author> findAllAuthors();
 
-  Optional<Author> findAuthorById(Long id);
+    Optional<Author> findAuthorById(Long id);
 
-  void insertAuthor(Author author);
+    void insertAuthor(Author author);
 
-  void updateAuthor(Author author);
+    void updateAuthor(Author author);
 
+    boolean checkAuthorExistsById(long id);
 }

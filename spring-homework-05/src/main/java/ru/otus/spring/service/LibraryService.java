@@ -8,20 +8,30 @@ import java.util.List;
 import java.util.Optional;
 
 public interface LibraryService {
-    public List<Author> findAllAuthors();
-    public Optional<Author> findAuthorById(Long id);
-    public void insertAuthor(Author author);
-    public void updateAuthor(Author author);
+    List<Author> findAllAuthors();
 
-    public List<Genre> findAllGenres();
-    public Optional<Genre> findGenreById(long id);
-    public void insertGenre(Genre genre);
-    public void updateGenre(Genre genre);
+    Optional<Author> findAuthorById(Long id);
 
-    public List<Book> findAllBooks();
-    public Optional<Book> findBookById(long id);
-    public void insertBook(Book book, boolean createRelatedObjects);
-    public void updateBook(Book book, boolean createRelatedObjects);
-    public void deleteBook(long id);
+    void insertAuthor(Author author);
+
+    void updateAuthor(Author author);
+
+    List<Genre> findAllGenres();
+
+    Optional<Genre> findGenreById(long id);
+
+    void insertGenre(Genre genre);
+
+    void updateGenre(Genre genre);
+
+    List<Book> findAllBooks();
+
+    Optional<Book> findBookById(long id);
+
+    void insertBook(Book book, boolean createRelatedObjects);
+
+    void updateBook(Book book, boolean createRelatedObjects);
+
+    void deleteBook(long id);
 
 }
