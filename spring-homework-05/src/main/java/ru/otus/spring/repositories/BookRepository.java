@@ -10,7 +10,7 @@ public interface BookRepository {
 
     Optional<Book> findBookById(long id);
 
-    Long checkBookExistsById(long id);
+    boolean checkBookExistsById(long id);
 
     void insertBook(Book book);
 

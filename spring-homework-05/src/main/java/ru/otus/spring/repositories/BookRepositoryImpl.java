@@ -49,16 +49,16 @@ public class BookRepositoryImpl implements BookRepository {
     }
 
     @Override
-    public Long checkBookExistsById(long id) {
+    public boolean checkBookExistsById(long id) {
         var paramsMap = Collections.singletonMap("id", id);
         Long idToReturn = null;
         try {
-            idToReturn = namedParameterJdbcOperations.queryForObject("select b.id from book b where b.id = :id", paramsMap,
+            idToReturn = namedParameterJdbcOperations.queryForObject("select 1 from book b where b.id = :id", paramsMap,
                     Long.class);
         } catch (EmptyResultDataAccessException exception) {
             log.debug(String.format("Книга с ID = %d не найдена! stacktrace: %s", id, Arrays.toString(exception.getStackTrace())));
         }
-        return idToReturn;
+        return (idToReturn != null);
     }
 
 

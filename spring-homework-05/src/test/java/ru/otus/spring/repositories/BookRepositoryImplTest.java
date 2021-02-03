@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
@@ -18,7 +17,6 @@ import static org.junit.jupiter.api.Assertions.*;
 @JdbcTest
 @Import({BookRepositoryImpl.class, EntityToMapTransformerImpl.class})
 @DisplayName("Репозиторий для книг должен")
-@Transactional
 class BookRepositoryImplTest {
     private static final short BOOKS_NUMBER = 1;
     private static final long BOOK_ID = 1;
