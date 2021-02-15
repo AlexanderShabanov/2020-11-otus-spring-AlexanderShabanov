@@ -16,20 +16,12 @@ public class GenreRepositoryJpaImpl implements GenreRepository {
 
     @Override
     public List<Genre> findAllGenres() {
-        return em.createQuery("select  g from Genre g").getResultList();
+        return em.createQuery("select  g from Genre g", Genre.class).getResultList();
     }
 
     @Override
     public Optional<Genre> findGenreById(long id) {
-        TypedQuery<Genre> query = em.createQuery(
-                "select g from Genre g where g.id = :id"
-                , Genre.class);
-        query.setParameter("id", id);
-        try {
-            return Optional.of(query.getSingleResult());
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(em.find(Genre.class, id));
     }
 
     @Override
@@ -44,8 +36,8 @@ public class GenreRepositoryJpaImpl implements GenreRepository {
 
     @Override
     public boolean checkGenreExistsById(long id) {
-        Query query = em.createQuery("select 1 from Genre g where g.id = :id");
+        TypedQuery<Integer> query = em.createQuery("select 1 from Genre g where g.id = :id", Integer.class);
         query.setParameter("id", id);
-        return query.getSingleResult() == null ? false : true;
+        return query.getSingleResult() != null;
     }
 }

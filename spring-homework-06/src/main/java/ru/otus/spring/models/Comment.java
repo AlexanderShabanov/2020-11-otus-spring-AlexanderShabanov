@@ -4,8 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-import org.hibernate.annotations.Fetch;
-import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
 
@@ -22,7 +20,7 @@ public class Comment {
     @JoinColumn(name = "userId", referencedColumnName = "id")
     private User user;
     @Column(name = "comment")
-    private String comment;
+    private String commentText;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "bookId")
     @ToString.Exclude

@@ -24,13 +24,11 @@ public class LibraryServiceImpl implements LibraryService {
 
 
     @Override
-    @Transactional(readOnly = true)
     public List<Author> findAllAuthors() {
         return authorRepository.findAllAuthors();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Author> findAuthorById(Long id) {
         return authorRepository.findAuthorById(id);
     }
@@ -48,13 +46,11 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Genre> findAllGenres() {
         return genreRepository.findAllGenres();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Genre> findGenreById(long id) {
         return genreRepository.findGenreById(id);
     }
@@ -72,13 +68,12 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    @Transactional(readOnly = true)
+
     public List<Book> findAllBooks() {
         return bookRepository.findAllBooks();
     }
 
     @Override
-    @Transactional(readOnly = true)
     public Optional<Book> findBookById(long id) {
         return bookRepository.findBookById(id);
     }
@@ -130,12 +125,11 @@ public class LibraryServiceImpl implements LibraryService {
                     .orElseThrow(() -> new EntityNotFoundException(String.format("юзер с id = %d не найден", userId)));
             comment.setUser(user);
         }
-        comment.setComment(commentText);
+        comment.setCommentText(commentText);
         return commentRepository.save(comment);
     }
 
     @Override
-    @Transactional(readOnly = true)
     public List<Comment> findAllComments() {
         return commentRepository.findAll();
     }

@@ -1,10 +1,12 @@
 package ru.otus.spring.repositories;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.models.Book;
 
-import javax.persistence.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,27 +17,19 @@ public class BookRepositoryJpaImpl implements BookRepository {
 
     @Override
     public List<Book> findAllBooks() {
-        return em.createQuery("select b from Book b").getResultList();
+        return em.createQuery("select b from Book b", Book.class).getResultList();
     }
 
     @Override
     public Optional<Book> findBookById(long id) {
-        TypedQuery<Book> query = em.createQuery(
-                "select b from Book b where b.id = :id"
-                , Book.class);
-        query.setParameter("id", id);
-        try {
-            return Optional.of(query.getSingleResult());
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(em.find(Book.class, id));
     }
 
     @Override
     public boolean checkBookExistsById(long id) {
-        Query query = em.createQuery("select 1 from Book b where b.id = :id");
+        TypedQuery<Integer> query = em.createQuery("select 1 from Book b where b.id = :id", Integer.class);
         query.setParameter("id", id);
-        return query.getSingleResult() == null ? false : true;
+        return query.getSingleResult() != null;
     }
 
     @Override
@@ -57,10 +51,9 @@ public class BookRepositoryJpaImpl implements BookRepository {
 
     @Override
     public long save(Book book) {
-        if (book.getId() == null){
+        if (book.getId() == null) {
             em.persist(book);
-        }
-        else {
+        } else {
             em.merge(book);
         }
 

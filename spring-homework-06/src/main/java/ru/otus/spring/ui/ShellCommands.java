@@ -20,7 +20,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ShellCommands {
     private final LibraryService libraryService;
-
     @ShellMethod(key = {"af", "authorFindAll"}, value = "get all authors")
     public List<Author> authorFindAll() {
         return libraryService.findAllAuthors();
@@ -61,14 +60,16 @@ public class ShellCommands {
         libraryService.updateGenre(new Genre(id, name));
     }
 
+    @Transactional(readOnly = true)
     @ShellMethod(key = {"bf", "bookFindAll"}, value = "get all books")
-    public List<Book> bookFindAll() {
-        return libraryService.findAllBooks();
+    public void bookFindAll() {
+        libraryService.findAllBooks().forEach(System.out::println);
     }
 
+    @Transactional(readOnly = true)
     @ShellMethod(key = {"bfid", "bookFindById"}, value = "get book by id")
-    public Optional<Book> bookFindById(long id) {
-        return libraryService.findBookById(id);
+    public void bookFindById(long id) {
+        System.out.println(libraryService.findBookById(id));
     }
 
     @ShellMethod(key = {"bi_id", "bookInsert_id"}, value = "insert book with existed author and genre")

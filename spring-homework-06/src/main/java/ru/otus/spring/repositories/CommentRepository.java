@@ -12,6 +12,6 @@ public interface CommentRepository {
 
     Optional<Comment> findById(Long id);
 
-    long save(Comment comment);
+    Long save(Comment comment);
 
 }

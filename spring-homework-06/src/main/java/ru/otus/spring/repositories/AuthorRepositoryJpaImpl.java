@@ -1,6 +1,5 @@
 package ru.otus.spring.repositories;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;
 import ru.otus.spring.models.Author;
 
@@ -15,20 +14,12 @@ public class AuthorRepositoryJpaImpl implements AuthorRepository {
 
     @Override
     public List<Author> findAllAuthors() {
-        return em.createQuery("select  a from Author a").getResultList();
+        return em.createQuery("select  a from Author a", Author.class).getResultList();
     }
 
     @Override
     public Optional<Author> findAuthorById(Long id) {
-        TypedQuery<Author> query = em.createQuery(
-                "select a from Author a where a.id = :id"
-                , Author.class);
-        query.setParameter("id", id);
-        try {
-            return Optional.of(query.getSingleResult());
-        } catch (NoResultException e) {
-            return Optional.empty();
-        }
+        return Optional.ofNullable(em.find(Author.class, id));
     }
 
     @Override
@@ -43,8 +34,8 @@ public class AuthorRepositoryJpaImpl implements AuthorRepository {
 
     @Override
     public boolean checkAuthorExistsById(long id) {
-        Query query = em.createQuery("select 1 from Author a where a.id = :id");
+        TypedQuery<Integer> query = em.createQuery("select 1 from Author a where a.id = :id", Integer.class);
         query.setParameter("id", id);
-        return query.getSingleResult() == null ? false : true;
+        return query.getSingleResult() != null;
     }
 }

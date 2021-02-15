@@ -1,7 +1,6 @@
 package ru.otus.spring.repositories;
 
 import org.hibernate.SessionFactory;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,7 +40,7 @@ class CommentRepositoryJpaImplTest {
         assertNotNull(comments);
         assertFalse(comments.isEmpty());
         assertEquals(COMMENTS_NUMBER, comments.size());
-        assertEquals(COMMENT_1_TEXT, comments.get(0).getComment());
+        assertEquals(COMMENT_1_TEXT, comments.get(0).getCommentText());
         assertEquals(BOOK_ID, comments.get(0).getBook().getId());
         assertEquals(USER1_NAME, comments.get(0).getUser().getName());
     }
@@ -51,7 +50,7 @@ class CommentRepositoryJpaImplTest {
     void shouldFindById() {
         var comment = commentRepository.findById(COMMENT_ID);
         assertTrue(comment.isPresent());
-        assertEquals(COMMENT_1_TEXT, comment.get().getComment());
+        assertEquals(COMMENT_1_TEXT, comment.get().getCommentText());
         assertEquals(USER1_NAME, comment.get().getUser().getName());
     }
 
@@ -66,13 +65,13 @@ class CommentRepositoryJpaImplTest {
     @DisplayName("сохранять новый коммент")
     void shouldFindByIdAndUpdateExisted() {
         var comment = commentRepository.findById(COMMENT2_ID)
-                .orElseThrow(()->new EntityNotFoundException(String.format("коммент с ID = %d не найден", COMMENT2_ID)));;
-        comment.setComment(UPDATED_COMMENT_TEXT);
+                .orElseThrow(() -> new EntityNotFoundException(String.format("коммент с ID = %d не найден", COMMENT2_ID)));
+        comment.setCommentText(UPDATED_COMMENT_TEXT);
         var id = commentRepository.save(comment);
         assertNotNull(id);
         comment = commentRepository.findById(id)
-                .orElseThrow(()->new EntityNotFoundException(String.format("коммент с ID = %d не найден", COMMENT2_ID)));;
-        assertEquals(UPDATED_COMMENT_TEXT, comment.getComment());
+                .orElseThrow(() -> new EntityNotFoundException(String.format("коммент с ID = %d не найден", COMMENT2_ID)));
+        assertEquals(UPDATED_COMMENT_TEXT, comment.getCommentText());
     }
 
     @Test
