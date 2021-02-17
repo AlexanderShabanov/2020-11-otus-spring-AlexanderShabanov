@@ -5,12 +5,12 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.transaction.annotation.Transactional;
+import ru.otus.spring.dto.BookDto;
 import ru.otus.spring.models.Author;
 import ru.otus.spring.models.Book;
 import ru.otus.spring.models.Genre;
@@ -21,13 +21,13 @@ import ru.otus.spring.service.exception.RelatedObjectNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
-
 @DisplayName("Библиотечный сервис должен")
 @SpringBootTest
-@ContextConfiguration(classes = LibraryServiceImpl.class)
+@ContextConfiguration(classes = {LibraryServiceImpl.class, ModelMapper.class})
 @ExtendWith(MockitoExtension.class)
 class LibraryServiceImplTest {
     private static final long BOOK_ID = 1;
@@ -65,10 +65,10 @@ class LibraryServiceImplTest {
     @DisplayName("найти книгу по ID")
     void shouldSuccessfullyFindBookById() {
         when(bookRepository.findBookById(BOOK_ID)).thenReturn(Optional.of(book1));
-        Optional<Book> foundBook = libraryService.findBookById(BOOK_ID);
+        BookDto foundBook = libraryService.findBookById(BOOK_ID);
         assertNotNull(foundBook);
-        assertFalse(foundBook.isEmpty());
-        assertEquals(book1, foundBook.get());
+        assertThat(foundBook).usingRecursiveComparison().isEqualTo(book1);
+        //assertEquals(book1, foundBook);
     }
 
     @Test

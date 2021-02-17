@@ -2,13 +2,21 @@
 package ru.otus.spring.service;
 
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.spring.models.*;
+import ru.otus.spring.dto.BookDto;
+import ru.otus.spring.dto.CommentDto;
+import ru.otus.spring.models.Author;
+import ru.otus.spring.models.Book;
+import ru.otus.spring.models.Comment;
+import ru.otus.spring.models.Genre;
 import ru.otus.spring.repositories.*;
 import ru.otus.spring.service.exception.RelatedObjectNotFoundException;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,6 +28,7 @@ public class LibraryServiceImpl implements LibraryService {
     private final BookRepository bookRepository;
     private final CommentRepository commentRepository;
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
     private static final String RELATED_OBJECT_NOT_FOUND = "Связанная сущность %s с id = %d не найдена!";
 
 
@@ -68,14 +77,16 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-
-    public List<Book> findAllBooks() {
-        return bookRepository.findAllBooks();
+    @Transactional(readOnly = true)
+    public List<BookDto> findAllBooks() {
+        return modelMapper.map(bookRepository.findAllBooks(), new TypeToken<ArrayList<BookDto>>() {
+        }.getType());
     }
 
     @Override
-    public Optional<Book> findBookById(long id) {
-        return bookRepository.findBookById(id);
+    @Transactional(readOnly = true)
+    public BookDto findBookById(long id) {
+        return modelMapper.map(bookRepository.findBookById(id).orElseThrow(), BookDto.class);
     }
 
     @Override
@@ -130,13 +141,17 @@ public class LibraryServiceImpl implements LibraryService {
     }
 
     @Override
-    public List<Comment> findAllComments() {
-        return commentRepository.findAll();
+    @Transactional(readOnly = true)
+    public List<CommentDto> findAllComments() {
+        return modelMapper.map(commentRepository.findAll(), new TypeToken<ArrayList<BookDto>>() {
+        }.getType());
     }
 
     @Override
-    public List<Comment> findAllCommentsByBookId(Long bookId) {
-        return commentRepository.findAllByBookId(bookId);
+    @Transactional(readOnly = true)
+    public List<CommentDto> findAllCommentsByBookId(Long bookId) {
+        return modelMapper.map(commentRepository.findAllByBookId(bookId), new TypeToken<ArrayList<BookDto>>() {
+        }.getType());
     }
 
     /**
