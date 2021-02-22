@@ -22,6 +22,9 @@ values ('Три мушкетера', 2);
 insert into book (name, authorId)
 values ('Три поросенка', 2);
 
+insert into book (name, authorId)
+values ('Книжка', 1);
+
 insert into bookToGenresLink (bookId, genreId)
 values (1, 2);
 
@@ -29,6 +32,9 @@ insert into bookToGenresLink (bookId, genreId)
 values (2, 1);
 insert into bookToGenresLink (bookId, genreId)
 values (2, 4);
+
+insert into bookToGenresLink (bookId, genreId)
+values (3, 3);
 
 insert into user (name)
 values ('user1');

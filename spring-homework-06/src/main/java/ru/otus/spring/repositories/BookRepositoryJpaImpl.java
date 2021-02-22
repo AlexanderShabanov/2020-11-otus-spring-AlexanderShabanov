@@ -17,7 +17,7 @@ public class BookRepositoryJpaImpl implements BookRepository {
 
     @Override
     public List<Book> findAllBooks() {
-        return em.createQuery("select b from Book b", Book.class).getResultList();
+        return em.createQuery("select b from Book b join fetch b.author", Book.class).getResultList();
     }
 
     @Override
