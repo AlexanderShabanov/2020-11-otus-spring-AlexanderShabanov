@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Редактирование книги</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+    </style>
+</head>
+<body>
+
+<!-- Book addition -->
+<form id="add-form" th:action="@{/book}" th:object="${book}" th:method="post" action="add.html">
+    <h1>Добавление книги:</h1>
+
+    <div class="row">
+        <label for="name-input">Название книги:</label>
+        <input id="name-input" name="name" type="text" th:value="*{name}" value="Чебурашка"/>
+    </div>
+
+    <div class="row">
+        <label>Автор:</label>
+        <select name="author" th:field="*{{author}}">
+            <option th:each="localAuthor : ${allAuthors}"
+                    th:value="${{localAuthor}}"
+                    th:text="|${localAuthor.name} ${localAuthor.surName}|">Иванов И. И.
+            </option>
+        </select>
+    </div>
+    <div class="row">
+        <label>Жанр:</label>
+        <select name="genre" th:field="*{{genre}}" multiple="multiple">
+            <option th:each="particularGenre : ${allGenres}"
+                    th:value="${{particularGenre}}"
+                    th:text="${particularGenre.name}">Название жанра
+            </option>
+        </select>
+    </div>
+    <div class="row">
+        <button type="submit">Добавить</button>
+    </div>
+</form>
+
+</body>
+</html>
