@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all persons</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        .books, .books td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+
+    </style>
+</head>
+<body>
+<center>
+    <h1>Книги, которые Вы можете почитать в нашей библиотеке:</h1>
+</center>
+<table class="books" style="margin:auto;">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название книги</th>
+        <th>Жанры</th>
+        <th>Автор</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="book : ${books}">
+        <td th:text="${book.id}">1</td>
+        <td th:text="${book.name}">имя книги</td>
+        <td>
+            <table style="border:none; padding: 1px;">
+                <tr th:each="genre : ${book.genre}">
+                    <td th:text="${genre.name}" style="border:none; padding: 1px;">имя жанра</td>
+                </tr>
+            </table>
+        </td>
+        <td th:text="|${book.author.name} ${book.author.surName}|">Автор</td>
+        <td style="border:none;">
+            <a th:href="@{/book(id=${book.id}, mode=EDIT)}" href="edit.html">
+                <img src="img/edit.png" width="15" height="15" alt="Редактировать">
+            </a>
+        </td>
+        <td style="border:none;">
+            <a th:href="@{/book(id=${book.id}, mode=DELETE)}" href="delete.html">
+                <img src="img/delete.png" width="15" height="15" alt="Удалить">
+            </a>
+        </td>
+    </tr>
+    <tr>
+        <td colspan="4">
+            <a th:href="@{/bookAdd}" href="add.html">
+                <img src="img/add.png" width="20" height="21" alt="Добавить новую книгу">
+            </a>
+        </td>
+    </tr>
+</table>
+</body>
+</html>
