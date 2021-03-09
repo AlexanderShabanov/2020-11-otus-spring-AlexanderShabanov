@@ -1,6 +1,6 @@
 
 async function save(){
-    let url = '/book';
+    let url = '/api/v1/book';
 
     var book = {
         'id': document.querySelector("#id-input").value,

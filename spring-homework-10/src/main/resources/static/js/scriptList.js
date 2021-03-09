@@ -1,5 +1,5 @@
 async function getBooks() {
-    let url = '/book';
+    let url = '/api/v1/book';
     try{
         let res = await fetch(url);
         return await res.json();
@@ -67,7 +67,7 @@ async function renderComments(event, bookId){
     }
 }
 async function getComments(bookId){
-let url = '/book/'+bookId+'/comment';
+let url = '/api/v1/book/'+bookId+'/comment';
     try{
         let res = await fetch(url);
         return await res.json();

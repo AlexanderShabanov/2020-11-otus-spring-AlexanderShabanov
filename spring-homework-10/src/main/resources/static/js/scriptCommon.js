@@ -1,5 +1,5 @@
 async function getBook(id) {
-    let url = '/book/'+id;
+    let url = '/api/v1/book/'+id;
     try{
         let res = await fetch(url);
         return await res.json();
@@ -41,7 +41,7 @@ async function renderBook() {
 
 }
 async function getAllAuthors() {
-    let url = '/author';
+    let url = '/api/v1/author';
     try{
         let res = await fetch(url);
         return await res.json();
@@ -50,7 +50,7 @@ async function getAllAuthors() {
         }
 }
 async function getAllGenres() {
-    let url = '/genre';
+    let url = '/api/v1/genre';
     try{
         let res = await fetch(url);
         return await res.json();

@@ -21,7 +21,7 @@ async function renderBook() {
 
 }
 async function addBook(){
-    let url = '/book';
+    let url = '/api/v1/book';
 
     var book = {
         'name': document.querySelector("#name").value,

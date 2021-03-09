@@ -1,5 +1,5 @@
 async function deleteBook(){
-    let url = '/book/' + document.querySelector("#id-input").value;
+    let url = '/api/v1/book/' + document.querySelector("#id-input").value;
 
     try{
         let res = await fetch(url, {
