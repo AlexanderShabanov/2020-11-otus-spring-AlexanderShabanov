@@ -1,0 +1,65 @@
+<!-- Book deletioon -->
+<form id="delete-form" action="delete.html">
+
+    <!DOCTYPE html>
+    <html lang="en" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8"/>
+        <title>Удаление книги</title>
+        <style type="text/css">
+        body {
+            padding: 50px;
+        }
+
+        label {
+            display: inline-block;
+            width: 100px;
+        }
+
+        input:read-only {
+            background: lightgray;
+        }
+
+        .row {
+            margin-top: 10px;
+        }
+
+
+
+        </style>
+    </head>
+    <body>
+
+    <!-- Book edition -->
+    <form id="deleteForm" action="delete.html">
+        <h1>Вы действительно хотите удалить книгу?</h1>
+        <div class="row">
+            <label for="id-input">ID:</label>
+            <input name="id-input" id="id-input" type="text" disabled="true" th:value="${bookId}" value="1"/>
+        </div>
+
+        <div class="row">
+            <label for="name">Название книги:</label>
+            <input id="name" name="name-input" disabled="true" type="text" value="Чебурашка"/>
+        </div>
+
+        <div class="row">
+            <label>Автор:</label>
+            <select id="author" name="author" disabled="true">
+            </select>
+        </div>
+        <div class="row">
+            <label>Жанр:</label>
+            <select id="genre-input" name="genre" multiple="multiple" disabled="true">
+            </select>
+        </div>
+        <div class="row">
+            <input type="button" onclick="deleteBook()" value="Удалить"></button>
+        </div>
+    </form>
+    <script type="text/javascript" src="/js/scriptCommon.js">
+    </script>
+    <script type="text/javascript" src="/js/scriptDelete.js">
+    </script>
+    </body>
+    </html>
