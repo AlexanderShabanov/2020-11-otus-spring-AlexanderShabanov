@@ -1,0 +1,17 @@
+spring:
+  data:
+    mongodb:
+      database: myLibrary
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+mongock:
+  #runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.spring.mongock.changelog
+
+logging:
+  level:
+    ROOT: DEBUG

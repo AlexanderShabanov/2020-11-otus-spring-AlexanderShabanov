@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>List of all persons</title>
+    <style type="text/css">
+        body {
+            padding: 50px;
+        }
+        .books, .books td {
+            border: 1px solid lightgray;
+            padding: 5px;
+            width: 800px;
+        }
+        .comments, .comments td {
+            border: 1px solid lightgray;
+            padding: 5px;
+        }
+
+
+    </style>
+</head>
+<body>
+<center>
+    <h1>Книги, которые Вы можете почитать в нашей библиотеке:</h1>
+</center>
+<table id="bookTable" class="books" style="margin:auto;">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Название книги</th>
+        <th>Жанры</th>
+        <th>Автор</th>
+        <th></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody></tbody>
+    <tr>
+        <td colspan="4">
+            <a th:href="@{/bookAdd}" href="add.html">
+                <img src="img/add.png" width="20" height="21" alt="Добавить новую книгу">
+            </a>
+        </td>
+    </tr>
+</table>
+<br>
+
+<table id="comments" class="comments" style="margin:auto;">
+    <thead>
+    <tr>
+        <th width=50>ID</th>
+        <th width=20>Пользователь</th>
+        <th>Комментарий</th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    </tbody>
+
+</table>
+<script type="text/javascript" src="/js/scriptList.js">
+</script>
+</body>
+</html>
