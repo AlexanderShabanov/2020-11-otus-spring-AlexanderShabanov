@@ -16,13 +16,13 @@ public class DefaultController {
     private static final String ERROR_STACK = "errorStack";
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<Map> handleException(Exception e) {
+    public ResponseEntity<Map<String, String>> handleException(Exception e) {
         e.printStackTrace();
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                 .body(createErrorBody(e));
     }
 
-    private Map createErrorBody(Exception e) {
+    private Map<String, String> createErrorBody(Exception e) {
         Map<String, String> body = new HashMap<>();
         body.put(ERROR_MESSAGE, e.getMessage());
         body.put(ERROR_STACK, e.getStackTrace().toString());

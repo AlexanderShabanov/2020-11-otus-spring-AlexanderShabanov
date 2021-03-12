@@ -3,12 +3,17 @@ package ru.otus.spring.mongock.changelog;
 import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.github.cloudyrock.mongock.driver.mongodb.springdata.v3.decorator.impl.MongockTemplate;
+import com.mongodb.client.MongoDatabase;
 import ru.otus.spring.models.*;
 
 import java.util.List;
 
 @ChangeLog
 public class DatabaseChangelog {
+    @ChangeSet(order = "000", id = "dropDatanase", author = "ashabanov", runAlways = true)
+    public void dropDatabase(MongoDatabase db) {
+        db.drop();
+    }
 
     @ChangeSet(order = "001", id = "insertAuthors", author = "ashabanov")
     public void insertAuthors(MongockTemplate template) {

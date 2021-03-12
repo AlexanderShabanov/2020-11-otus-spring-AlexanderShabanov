@@ -28,7 +28,7 @@
 <body>
 
 <!-- Book addition -->
-<form id="add-form" action="add.html">
+<form id="add-form" method="post" action="add.html">
     <h1>Добавление книги:</h1>
 
     <div class="row">
@@ -47,7 +47,7 @@
         </select>
     </div>
     <div class="row">
-        <button type="submit" onclick="addBook()">Добавить</button>
+        <button type="button" onclick="addBook()">Добавить</button>
     </div>
 </form>
 <script type="text/javascript" src="/js/scriptCommon.js">

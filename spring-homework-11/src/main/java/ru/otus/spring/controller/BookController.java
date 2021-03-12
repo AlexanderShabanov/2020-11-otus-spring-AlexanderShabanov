@@ -36,8 +36,8 @@ public class BookController {
     }
 
     @DeleteMapping("/api/v2/book/{id}")
-    public void deleteBook(@PathVariable String id) {
-        bookRepository.deleteById(id);
+    public Mono<Void> deleteBook(@PathVariable String id) {
+        return bookRepository.deleteById(id);
     }
 
     @GetMapping("/api/v2/book/{id}/comment")
